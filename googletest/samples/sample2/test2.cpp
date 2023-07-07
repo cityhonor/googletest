@@ -1,8 +1,11 @@
+#include <iostream>
+#include <cstdlib>
+#include <time.h> 
 #include <limits.h>
 #include "sample2.hpp"
 #include "gtest/gtest.h"
 
-
+#if 0
 class queue_test : public ::testing::Test 
 {
     protected:
@@ -60,6 +63,64 @@ TEST_F(queue_test, dequeue)
     tail = q2_.get_tail();
     printf("head = %d, tail = %d\n", head, tail);
 }
+
+#endif
+
+class ring_queue_test : public ::testing::Test 
+{
+    protected:
+    virtual void SetUp() 
+    {
+        int32_t data = 0;
+        uint32_t i = 0u;
+        for(i = 0; i < 10000; i++)
+        {
+            srand(time(NULL));
+            array[i] = rand();
+        } 
+    }
+    
+    // virtual void TearDown() {}
+    int32_t array[10000];
+    queue<int32_t> q0;
+};
+
+
+TEST_F(ring_queue_test, ring_queue) 
+{
+    int32_t status = 0;
+    uint32_t i = 0u;
+    /* 队列元素个数 */
+    uint32_t queue_ele_num = 0u;
+    for(i = 0u; i < sizeof(array) / sizeof(array[0]); i++)
+    {
+        if(array[i] % 2 == 0)
+        {
+            status = q0.enqueue(array[i]);
+            if(status == 0)
+            {
+                queue_ele_num++;
+            }
+            else
+            {
+                ASSERT_LT(QUEUE_CAPACITY_MAX, queue_ele_num);
+            }
+        }
+        else
+        {
+            status = q0.dequeue(array[i]);
+            if(status == 0)
+            {
+                queue_ele_num--;
+            }
+            else
+            {
+                ASSERT_EQ(queue_ele_num, 0u);
+            }
+        }
+    }
+}
+
 
 
 int main(int argc, char **argv) 

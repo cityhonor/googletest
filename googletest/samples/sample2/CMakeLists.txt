@@ -5,7 +5,13 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 必须放到add_executable之前
+message(${CMAKE_BUILD_PLATFORM})
+
+if(${CMAKE_BUILD_PLATFORM} STREQUAL ARM)
+link_directories(${CMAKE_SOURCE_DIR}/../../../debug_cross_complite/lib)
+else()
 link_directories(${CMAKE_SOURCE_DIR}/../../../debug/lib)
+endif()
 link_libraries(gtest_maind gtestd)
 
 include_directories(
