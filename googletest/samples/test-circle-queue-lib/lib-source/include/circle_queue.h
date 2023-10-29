@@ -18,6 +18,7 @@ class circle_queue
     int32_t dequeue(uint32_t *ref);
     uint32_t get_queue_ele_num(void);
     uint32_t get_capacity(void);
+    lib_source_queue lib_queue;
 
     private:
     uint32_t capacity;
@@ -25,7 +26,6 @@ class circle_queue
     uint32_t tail;
     uint32_t ele_num;
     uint32_t queue[M_CIRCLE_QUEUE_CAPACITY + 1u];
-    lib_source_queue lib_queue;
 };
 
 #endif
