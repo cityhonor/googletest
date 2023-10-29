@@ -7,19 +7,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE SRC_LIST
         "src/*.cpp"
+        "main.cpp"
         )
 
-message(${SRC_LIST})
-message(${CMAKE_SOURCE_DIR})
+
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
+
 
 add_library(libcircle-queue STATIC ${SRC_LIST})
 
+
 target_include_directories(
-    libcircle-queue PRIVATE ./include
+    libcircle-queue PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/lib-sub-source/include
 )
 
+
+# 在工程中共引入googletest头文件搜索路径
+target_include_directories(libcircle-queue PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib-sub-source/include)
+
+
+target_link_libraries(libcircle-queue PRIVATE sub_source)
+
+
 set_target_properties(libcircle-queue PROPERTIES OUTPUT_NAME "circle-queue")
-set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib-source/lib)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 
 

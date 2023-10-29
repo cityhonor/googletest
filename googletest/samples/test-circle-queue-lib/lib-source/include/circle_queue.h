@@ -2,6 +2,8 @@
 #define __CIRCLE_QUEUE_H__
 
 #include <stdint.h>
+// #include "lib-source/lib-sub-source/include/lib_sub_source.h"
+#include "lib_sub_source.h"
 
 #define M_CIRCLE_QUEUE_CAPACITY (1024u)
 
@@ -23,7 +25,7 @@ class circle_queue
     uint32_t tail;
     uint32_t ele_num;
     uint32_t queue[M_CIRCLE_QUEUE_CAPACITY + 1u];
-
+    lib_source_queue lib_queue;
 };
 
 #endif
